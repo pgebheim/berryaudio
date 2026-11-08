@@ -49,7 +49,8 @@ jobs:
 
       - name: Compare against committed dist
         run: |
-          if diff -r -x .frontend-ref -x .gitkeep dist-check web/www; then
+          # images/ holds runtime album art, not build output
+          if diff -r -x .frontend-ref -x .gitkeep -x images dist-check web/www; then
             echo "dist matches frontend pin ${{ steps.pin.outputs.sha }}"
           else
             echo "::error::web/www does not match ba-frontend@${{ steps.pin.outputs.sha }} - rebuild the dist and update the pin"
